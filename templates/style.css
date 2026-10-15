@@ -1,0 +1,43 @@
+#cabecalho{font-size: 36px;
+    color: #333;
+    text-align: center;
+    margin-top: 50px auto;
+    background-color: #b1b1b1;
+}
+#menu{font-size: 18px;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #c1c1c1;
+}
+a{font-size: 18px;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #c1c1c1;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+#descricao{font-size: 18px;
+    color: #666;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #d1d1d1;
+}
+#rodape{font-size: 14px;
+    color: #f9f9f9;
+    text-align: center;
+    margin-top: 50px;
+    background-color: #080808;
+}
+body { font-family: Arial, sans-serif; margin: 50px; }
+        .search-container { position: relative; width: 300px; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; }
+        .results-list { 
+            position: absolute; width: 100%; background: white; 
+            border: 1px solid #ccc; border-top: none; display: none; 
+            list-style: none; padding: 0; margin: 0; max-height: 200px; overflow-y: auto;
+        }
+        .results-list li { padding: 10px; cursor: pointer; }
+        .results-list li:hover { background-color: #f0f0f0; }

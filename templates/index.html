@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Programas</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="cabecalho">
+        <h1>Buscador de Programas</h1>
+        <div id="menu">
+            <a href="/">Início</a>
+            <a href="/sobre">Sobre</a>
+            <a href="/login">Contato</a>
+            <a href="/encurtador">Encurtador de URLs</a>
+        </div>
+    </div>
+    <div id="descricao">
+        <h1>Encontre o programa perfeito para você!</h1>
+        <p>Bem-vindo ao nosso buscador de programas!</p>
+    </div>
+    <div id="rodape">
+        <p>&copy; 2024 Buscador de Programas. Todos os direitos reservados.</p>
+    </div>
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Digite para buscar..." autocomplete="off">
+        <ul id="results" class="results-list"></ul>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const resultsList = document.getElementById('results');
+        let debounceTimer;
+
+        // Escuta o evento de digitação (input)
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+
+            // Limpa o timer anterior (Debounce) para não travar a API a cada letra
+            clearTimeout(debounceTimer);
+
+            if (query.length === 0) {
+                resultsList.style.display = 'none';
+                return;
+            }
+
+            // Aguarda 300ms após o usuário parar de digitar para fazer a requisição
+            debounceTimer = setTimeout(() => {
+                fetch(`/api/search?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        exibirResultados(data);
+                    })
+                    .catch(error => console.error('Erro ao buscar:', error));
+            }, 300); 
+        });
+
+        // Função para renderizar as respostas no HTML
+        function exibirResultados(resultados) {
+            resultsList.innerHTML = ''; // Limpa os resultados anteriores
+
+            if (resultados.length === 0) {
+                resultsList.innerHTML = '<li>Nenhum resultado encontrado</li>';
+                resultsList.style.display = 'block';
+                return;
+            }
+
+            // Cria um item de lista para cada resposta relevante
+            resultados.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.nome}`;
+                li.addEventListener('click', () => {
+                    searchInput.value = item.nome;
+                    resultsList.style.display = 'none';
+                });
+                resultsList.appendChild(li);
+            });
+
+            resultsList.style.display = 'block';
+        }
+
+        // Esconde a lista se o usuário clicar fora dela
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !resultsList.contains(e.target)) {
+                resultsList.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
